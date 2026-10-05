@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <MainButtonDef>
+    <defName>ColonyKanban_Plans</defName>
+    <label>plans</label>
+    <description>Your colony's plan / doing / done board.</description>
+    <tabWindowClass>ColonyKanban.MainTabWindow_Kanban</tabWindowClass>
+    <iconPath>UI/ColonyKanban/MainButton</iconPath>
+    <minimized>true</minimized>
+    <order>95</order>
+    <canBeTutorDenied>false</canBeTutorDenied>
+  </MainButtonDef>
+</Defs>

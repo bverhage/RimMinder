@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <CK_BoardTitle>Colony plans</CK_BoardTitle>
+  <CK_NewTicket>+ New ticket</CK_NewTicket>
+  <CK_ShowReminder>Show reminder</CK_ShowReminder>
+  <CK_Status_Plan>Plan</CK_Status_Plan>
+  <CK_Status_Doing>Doing</CK_Status_Doing>
+  <CK_Status_Done>Done</CK_Status_Done>
+  <CK_ClearDone>Clear</CK_ClearDone>
+  <CK_ResizeTip>Drag to resize. Right-click to reset.</CK_ResizeTip>
+  <CK_ClearDoneConfirm>Delete all {0} done tickets?</CK_ClearDoneConfirm>
+  <CK_EmptyColumn>Drop tickets here</CK_EmptyColumn>
+  <CK_EmptyBoard>Write down what you're working on, so you remember next session.</CK_EmptyBoard>
+
+  <CK_Meta_Age>{0} d old</CK_Meta_Age>
+  <CK_Meta_DueIn>due in {0} d</CK_Meta_DueIn>
+  <CK_Meta_Overdue>overdue {0} d</CK_Meta_Overdue>
+  <CK_Meta_Took>took {0} d</CK_Meta_Took>
+
+  <CK_MoveTo>Move to {0}</CK_MoveTo>
+  <CK_Edit>Edit</CK_Edit>
+  <CK_Delete>Delete</CK_Delete>
+  <CK_DeleteConfirm>Delete ticket "{0}"?</CK_DeleteConfirm>
+
+  <CK_EditTitle>Ticket</CK_EditTitle>
+  <CK_NewTitle>New ticket</CK_NewTitle>
+  <CK_Field_Title>Title</CK_Field_Title>
+  <CK_Field_Notes>Notes</CK_Field_Notes>
+  <CK_Field_Color>Color</CK_Field_Color>
+  <CK_Field_Deadline>Deadline in days</CK_Field_Deadline>
+  <CK_Save>Save</CK_Save>
+  <CK_Cancel>Cancel</CK_Cancel>
+  <CK_TitlePlaceholder>Build the freezer</CK_TitlePlaceholder>
+  <CK_NeedTitle>Give the ticket a title first.</CK_NeedTitle>
+
+  <CK_OverdueMessage>Plan overdue: {0}</CK_OverdueMessage>
+  <CK_ToggleTooltip>Toggle the colony plans reminder.</CK_ToggleTooltip>
+  <CK_Overlay_Header>Doing</CK_Overlay_Header>
+  <CK_Overlay_Collapse>Collapse</CK_Overlay_Collapse>
+  <CK_Overlay_Expand>Expand</CK_Overlay_Expand>
+  <CK_Overlay_Lock>Lock position</CK_Overlay_Lock>
+  <CK_Overlay_Unlock>Unlock position (drag the header to move)</CK_Overlay_Unlock>
+  <CK_Overlay_Hide>Hide reminder (turn it back on with the icon in the bottom-right)</CK_Overlay_Hide>
+</LanguageData>
