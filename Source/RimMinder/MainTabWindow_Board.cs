@@ -199,9 +199,19 @@ namespace RimMinder
 
         public static float CardHeight(Ticket t, float width)
         {
+            float textWidth = width - StripeWidth - CardPad * 3f;
             Text.Font = GameFont.Small;
-            float titleHeight = Text.CalcHeight(t.title, width - StripeWidth - CardPad * 3f);
-            return CardPad + titleHeight + MetaHeight + (t.IsCountGoal ? BarHeight + 2f : 0f) + CardPad;
+            float titleHeight = Text.CalcHeight(t.title, textWidth);
+            return CardPad + titleHeight + MetaLineHeight(t, textWidth) + (t.IsCountGoal ? BarHeight + 2f : 0f) + CardPad;
+        }
+
+        /// <summary>The meta line wraps on narrow cards ("last raid 2.1 d ago · repeats"), so measure it.</summary>
+        private static float MetaLineHeight(Ticket t, float textWidth)
+        {
+            Text.Font = GameFont.Tiny;
+            float height = Mathf.Max(MetaHeight, Text.CalcHeight(t.MetaLabel(out _), textWidth));
+            Text.Font = GameFont.Small;
+            return height;
         }
 
         public static void DrawCard(Rect rect, Ticket t, float alpha = 1f, bool highlight = true)
@@ -221,14 +231,15 @@ namespace RimMinder
             float titleHeight = Text.CalcHeight(t.title, textRect.width);
             Widgets.Label(new Rect(textRect.x, textRect.y, textRect.width, titleHeight), t.title);
 
+            float metaHeight = MetaLineHeight(t, textRect.width);
             Text.Font = GameFont.Tiny;
             string meta = t.MetaLabel(out Color metaColor);
             GUI.color = metaColor.WithAlpha(alpha);
-            Widgets.Label(new Rect(textRect.x, textRect.y + titleHeight, textRect.width, MetaHeight), meta);
+            Widgets.Label(new Rect(textRect.x, textRect.y + titleHeight, textRect.width, metaHeight), meta);
 
             if (t.IsCountGoal)
             {
-                Rect bar = new Rect(textRect.x, textRect.y + titleHeight + MetaHeight + 1f, textRect.width, BarHeight);
+                Rect bar = new Rect(textRect.x, textRect.y + titleHeight + metaHeight + 1f, textRect.width, BarHeight);
                 Widgets.DrawBoxSolid(bar, new Color(0.18f, 0.2f, 0.22f, alpha));
                 Color fill = t.GoalMet ? Ticket.MetColor : t.Color;
                 Widgets.DrawBoxSolid(new Rect(bar.x, bar.y, bar.width * t.Progress, bar.height), fill.WithAlpha(alpha));

@@ -20,7 +20,7 @@ namespace RimMinder
         private const float MetaHeight = 15f;
         private const float IconSize = 14f;
 
-        private static readonly Color Background = new Color(0.08f, 0.1f, 0.11f, 0.55f);
+        private static readonly Color Background = new Color(0.08f, 0.1f, 0.11f, 0.65f);
         private static readonly Color HeaderText = new Color(0.78f, 0.78f, 0.78f);
 
         private static bool dragging;
@@ -67,7 +67,13 @@ namespace RimMinder
         private static float RowHeight(Ticket t, float textWidth)
         {
             Text.Font = GameFont.Tiny;
-            return Text.CalcHeight(t.title, textWidth) + MetaHeight;
+            return Text.CalcHeight(t.title, textWidth) + MetaLineHeight(t, textWidth);
+        }
+
+        private static float MetaLineHeight(Ticket t, float textWidth)
+        {
+            Text.Font = GameFont.Tiny;
+            return Mathf.Max(MetaHeight, Text.CalcHeight(t.MetaLabel(out _), textWidth));
         }
 
         private static Vector2 Position(float height)
@@ -204,7 +210,7 @@ namespace RimMinder
             Widgets.Label(new Rect(textRect.x, textRect.y, textRect.width, titleHeight), t.title);
             string meta = t.MetaLabel(out Color metaColor);
             GUI.color = metaColor;
-            Widgets.Label(new Rect(textRect.x, textRect.y + titleHeight - 2f, textRect.width, MetaHeight), meta);
+            Widgets.Label(new Rect(textRect.x, textRect.y + titleHeight - 2f, textRect.width, MetaLineHeight(t, textWidth)), meta);
             GUI.color = Color.white;
 
             if (!t.notes.NullOrEmpty())

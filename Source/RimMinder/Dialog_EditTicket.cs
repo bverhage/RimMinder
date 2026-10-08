@@ -35,7 +35,7 @@ namespace RimMinder
         private EventKind eventKind;
         private bool reopenOnEvent;
 
-        public override Vector2 InitialSize => new Vector2(440f, BaseHeight);
+        public override Vector2 InitialSize => new Vector2(480f, BaseHeight + (linkOpen ? LinkSectionHeight : 0f));
 
         public Dialog_EditTicket(Ticket ticket, bool isNew)
         {
@@ -56,6 +56,8 @@ namespace RimMinder
             doneWhenReached = ticket.doneWhenReached;
             eventKind = ticket.eventKind;
             reopenOnEvent = ticket.reopenOnEvent;
+            // Plain tickets keep the link section out of the way; linked ones show what they're tracking.
+            linkOpen = link != LinkType.None;
 
             forcePause = false;
             doCloseX = true;
@@ -214,19 +216,27 @@ namespace RimMinder
             float x = inRect.x + LabelWidth;
             float w = inRect.width - LabelWidth;
 
-            // Type: three radio buttons in a row.
-            float third = w / 3f;
-            LinkType[] types = { LinkType.None, LinkType.Count, LinkType.Event };
-            for (int i = 0; i < types.Length; i++)
+            // Type: three radio buttons in a row, circle first and each sized to its label
+            // (vanilla's RadioButtonLabeled puts the circle on the right and squeezes the text).
+            float cx = x;
+            Text.Anchor = TextAnchor.MiddleLeft;
+            foreach (LinkType type in new[] { LinkType.None, LinkType.Count, LinkType.Event })
             {
-                Rect r = new Rect(x + i * third, y, third - 6f, RowHeight);
-                if (Widgets.RadioButtonLabeled(r, GameLinks.Label(types[i]), link == types[i]))
+                string label = GameLinks.Label(type);
+                float labelWidth = Text.CalcSize(label).x;
+                Rect option = new Rect(cx, y, Widgets.RadioButtonSize + 4f + labelWidth, RowHeight);
+                Widgets.DrawHighlightIfMouseover(option);
+                Widgets.RadioButton(option.x, option.y + (RowHeight - Widgets.RadioButtonSize) / 2f, link == type);
+                Widgets.Label(new Rect(option.x + Widgets.RadioButtonSize + 4f, option.y, labelWidth, RowHeight), label);
+                if (Widgets.ButtonInvisible(option) && link != type)
                 {
-                    link = types[i];
+                    link = type;
                     if (link == LinkType.Count && countThing == null && countCategory == null)
                         countCategory = DefDatabase<ThingCategoryDef>.GetNamedSilentFail("FoodMeals");
                 }
+                cx = option.xMax + 14f;
             }
+            Text.Anchor = TextAnchor.UpperLeft;
             y += RowHeight + 4f;
 
             Text.Anchor = TextAnchor.MiddleLeft;

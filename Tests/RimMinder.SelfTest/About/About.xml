@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>RimMinder Self-Test (dev only)</name>
+  <author>the B52</author>
+  <packageId>theB52.RimMinder.SelfTest</packageId>
+  <supportedVersions>
+    <li>1.6</li>
+  </supportedVersions>
+  <modDependencies>
+    <li>
+      <packageId>theB52.RimMinder</packageId>
+      <displayName>RimMinder</displayName>
+      <downloadUrl>https://github.com/bverhage/RimMinder</downloadUrl>
+    </li>
+  </modDependencies>
+  <loadAfter>
+    <li>theB52.RimMinder</li>
+  </loadAfter>
+  <description>Automated in-game tests for RimMinder. Not for players: only runs when the game is started with -rimminder-selftest (see tools/test-launch.ps1).</description>
+</ModMetaData>
