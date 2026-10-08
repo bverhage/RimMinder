@@ -98,8 +98,13 @@ namespace RimMinder
 
         public override void GameComponentTick()
         {
-            if (Find.TickManager.TicksGame % CheckInterval != 0)
-                return;
+            if (Find.TickManager.TicksGame % CheckInterval == 0)
+                CheckTickets();
+        }
+
+        /// <summary>Overdue messages and "done when reached" goals. Runs hourly; public so it can be tested.</summary>
+        public void CheckTickets()
+        {
             foreach (Ticket ticket in tickets)
             {
                 if (ticket.IsOverdue && !ticket.overdueNotified)

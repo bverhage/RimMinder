@@ -6,4 +6,5 @@ obj/
 
 # Private mod-manager notes (never commit)
 ModManager/
-ModManager/
+.testdata/
+Tests/*/1.6/Assemblies/

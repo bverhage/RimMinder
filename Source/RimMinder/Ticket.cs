@@ -49,6 +49,8 @@ namespace RimMinder
         public static readonly Color WarnColor = new Color(0.9f, 0.75f, 0.3f);
         public static readonly Color OverdueColor = new Color(0.9f, 0.42f, 0.35f);
         public static readonly Color MetColor = new Color(0.5f, 0.75f, 0.37f);
+        // Readable grey for info lines; vanilla's InactiveColor is meant for disabled things and is too dark.
+        public static readonly Color MetaColor = new Color(0.68f, 0.68f, 0.68f);
 
         public Color Color => Palette[Mathf.Clamp(colorIndex, 0, Palette.Length - 1)];
 
@@ -91,7 +93,7 @@ namespace RimMinder
         /// <summary>The short line under a card's title, with the color it should be drawn in.</summary>
         public string MetaLabel(out Color color)
         {
-            color = Widgets.InactiveColor;
+            color = MetaColor;
             string main;
             if (IsCountGoal)
             {
