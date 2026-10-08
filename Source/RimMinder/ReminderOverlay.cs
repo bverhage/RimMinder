@@ -5,7 +5,7 @@ using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
-namespace ColonyKanban
+namespace RimMinder
 {
     /// <summary>The small see-through list of what you're working on, drawn over the map.</summary>
     [StaticConstructorOnStartup]
@@ -25,10 +25,12 @@ namespace ColonyKanban
 
         private static bool dragging;
         private static Vector2 dragOffset;
+        private static Vector2 pressStart;
+        private const float ClickSlop = 4f;
 
-        private static KanbanSettings Settings => KanbanMod.Settings;
+        private static RimMinderSettings Settings => RimMinderMod.Settings;
 
-        public static void OnGUI(KanbanGameComponent board)
+        public static void OnGUI(BoardComponent board)
         {
             if (!Settings.showOverlay || Find.CurrentMap == null || WorldRendererUtility.WorldRendered)
                 return;
@@ -85,7 +87,11 @@ namespace ColonyKanban
             if (!Input.GetMouseButton(0))
             {
                 dragging = false;
-                KanbanMod.SaveSettings();
+                // Barely moved: treat it as a click on the header and open the board.
+                if ((UI.MousePositionOnUIInverted - pressStart).magnitude < ClickSlop)
+                    RimMinderDefOf.ToggleBoard();
+                else
+                    RimMinderMod.SaveSettings();
                 return;
             }
             Settings.overlayPos = UI.MousePositionOnUIInverted - dragOffset;
@@ -104,7 +110,7 @@ namespace ColonyKanban
             Text.Anchor = TextAnchor.MiddleLeft;
             GUI.color = HeaderText;
             // Resolve first: appending raw color tags to a TaggedString escapes them.
-            string label = "CK_Overlay_Header".Translate().Resolve();
+            string label = "RM_Overlay_Header".Translate().Resolve();
             Widgets.Label(header, label + "  " + items.Count.ToString().Colorize(Widgets.InactiveColor));
             Text.Anchor = TextAnchor.UpperLeft;
 
@@ -112,19 +118,19 @@ namespace ColonyKanban
             if (Widgets.ButtonImage(collapseRect, Settings.overlayCollapsed ? TexButton.Reveal : TexButton.Collapse, new Color(1f, 1f, 1f, 0.6f), Color.white))
             {
                 Settings.overlayCollapsed = !Settings.overlayCollapsed;
-                KanbanMod.SaveSettings();
+                RimMinderMod.SaveSettings();
             }
-            TooltipHandler.TipRegion(collapseRect, Settings.overlayCollapsed ? "CK_Overlay_Expand".Translate() : "CK_Overlay_Collapse".Translate());
+            TooltipHandler.TipRegion(collapseRect, Settings.overlayCollapsed ? "RM_Overlay_Expand".Translate() : "RM_Overlay_Collapse".Translate());
             if (Widgets.ButtonImage(hideRect, TexButton.CloseXSmall, new Color(1f, 1f, 1f, 0.6f), Color.white))
             {
                 Settings.showOverlay = false;
-                KanbanMod.SaveSettings();
+                RimMinderMod.SaveSettings();
             }
-            TooltipHandler.TipRegion(hideRect, "CK_Overlay_Hide".Translate());
+            TooltipHandler.TipRegion(hideRect, "RM_Overlay_Hide".Translate());
             GUI.color = Color.white;
 
             Rect dragArea = new Rect(rect.x, rect.y, collapseRect.x - rect.x - 4f, HeaderHeight);
-            TooltipHandler.TipRegion(dragArea, Settings.overlayLocked ? "CK_Overlay_Lock".Translate() : "CK_Overlay_Unlock".Translate());
+            TooltipHandler.TipRegion(dragArea, Settings.overlayLocked ? "RM_Overlay_HeaderTipLocked".Translate() : "RM_Overlay_HeaderTip".Translate());
             HandleHeaderInput(dragArea);
 
             if (!Settings.overlayCollapsed)
@@ -148,9 +154,15 @@ namespace ColonyKanban
             Event e = Event.current;
             if (e.type != EventType.MouseDown || !Mouse.IsOver(dragArea))
                 return;
-            if (e.button == 0 && !Settings.overlayLocked)
+            if (e.button == 0 && Settings.overlayLocked)
+            {
+                RimMinderDefOf.ToggleBoard();
+                e.Use();
+            }
+            else if (e.button == 0)
             {
                 dragging = true;
+                pressStart = UI.MousePositionOnUIInverted;
                 dragOffset = UI.MousePositionOnUIInverted - Settings.overlayPos;
                 if (Settings.overlayPos.x < 0f)
                 {
@@ -164,15 +176,15 @@ namespace ColonyKanban
             {
                 var options = new List<FloatMenuOption>
                 {
-                    new FloatMenuOption(Settings.overlayLocked ? "CK_Overlay_Unlock".Translate() : "CK_Overlay_Lock".Translate(), () =>
+                    new FloatMenuOption(Settings.overlayLocked ? "RM_Overlay_Unlock".Translate() : "RM_Overlay_Lock".Translate(), () =>
                     {
                         Settings.overlayLocked = !Settings.overlayLocked;
-                        KanbanMod.SaveSettings();
+                        RimMinderMod.SaveSettings();
                     }),
-                    new FloatMenuOption("CK_Overlay_Hide".Translate(), () =>
+                    new FloatMenuOption("RM_Overlay_Hide".Translate(), () =>
                     {
                         Settings.showOverlay = false;
-                        KanbanMod.SaveSettings();
+                        RimMinderMod.SaveSettings();
                     })
                 };
                 Find.WindowStack.Add(new FloatMenu(options));
@@ -198,7 +210,7 @@ namespace ColonyKanban
             if (!t.notes.NullOrEmpty())
                 TooltipHandler.TipRegion(row, t.notes);
             if (Widgets.ButtonInvisible(row))
-                Find.MainTabsRoot.SetCurrentTab(KanbanDefOf.ColonyKanban_Plans);
+                Find.MainTabsRoot.SetCurrentTab(RimMinderDefOf.RimMinder_Plans);
         }
     }
 }

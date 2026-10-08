@@ -3,3 +3,7 @@ obj/
 .vs/
 *.user
 .claude/settings.local.json
+
+# Private mod-manager notes (never commit)
+ModManager/
+ModManager/

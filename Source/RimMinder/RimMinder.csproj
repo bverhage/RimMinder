@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <AssemblyName>ColonyKanban</AssemblyName>
-    <RootNamespace>ColonyKanban</RootNamespace>
-    <OutputPath>..\..\ColonyKanban\1.6\Assemblies\</OutputPath>
+    <AssemblyName>RimMinder</AssemblyName>
+    <RootNamespace>RimMinder</RootNamespace>
+    <OutputPath>..\..\RimMinder\1.6\Assemblies\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <DebugType>none</DebugType>

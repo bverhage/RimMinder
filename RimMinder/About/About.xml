@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-  <name>Colony Kanban</name>
-  <author>billy</author>
-  <packageId>billy.colonykanban</packageId>
-  <modVersion>0.2.0</modVersion>
+  <name>RimMinder</name>
+  <author>the B52</author>
+  <packageId>theB52.RimMinder</packageId>
+  <modVersion>0.4.0</modVersion>
   <supportedVersions>
     <li>1.6</li>
   </supportedVersions>

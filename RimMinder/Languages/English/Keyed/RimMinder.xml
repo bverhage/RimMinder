@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <RM_BoardTitle>Colony plans</RM_BoardTitle>
+  <RM_NewTicket>+ New ticket</RM_NewTicket>
+  <RM_ShowReminder>Show reminder</RM_ShowReminder>
+  <RM_Status_Plan>Plan</RM_Status_Plan>
+  <RM_Status_Doing>Doing</RM_Status_Doing>
+  <RM_Status_Done>Done</RM_Status_Done>
+  <RM_ClearDone>Clear</RM_ClearDone>
+  <RM_ResizeTip>Drag to resize. Right-click to reset.</RM_ResizeTip>
+  <RM_ClearDoneConfirm>Delete all {0} done tickets?</RM_ClearDoneConfirm>
+  <RM_EmptyColumn>Drop tickets here</RM_EmptyColumn>
+  <RM_EmptyBoard>Write down what you're working on, so you remember next session.</RM_EmptyBoard>
+
+  <RM_Meta_Age>{0} d old</RM_Meta_Age>
+  <RM_Meta_DueIn>due in {0} d</RM_Meta_DueIn>
+  <RM_Meta_Overdue>overdue {0} d</RM_Meta_Overdue>
+  <RM_Meta_Took>took {0} d</RM_Meta_Took>
+
+  <RM_MoveTo>Move to {0}</RM_MoveTo>
+  <RM_Edit>Edit</RM_Edit>
+  <RM_Delete>Delete</RM_Delete>
+  <RM_DeleteConfirm>Delete ticket "{0}"?</RM_DeleteConfirm>
+
+  <RM_EditTitle>Ticket</RM_EditTitle>
+  <RM_NewTitle>New ticket</RM_NewTitle>
+  <RM_Field_Title>Title</RM_Field_Title>
+  <RM_Field_Notes>Notes</RM_Field_Notes>
+  <RM_Field_Color>Color</RM_Field_Color>
+  <RM_Field_Deadline>Deadline in days</RM_Field_Deadline>
+  <RM_Save>Save</RM_Save>
+  <RM_Cancel>Cancel</RM_Cancel>
+  <RM_TitlePlaceholder>Build the freezer</RM_TitlePlaceholder>
+  <RM_NeedTitle>Give the ticket a title first.</RM_NeedTitle>
+
+  <RM_Field_Link>Link to game</RM_Field_Link>
+  <RM_Link_None>None</RM_Link_None>
+  <RM_Link_Count>Have items</RM_Link_Count>
+  <RM_Link_Event>Since event</RM_Link_Event>
+  <RM_LinkHelp>Optional. Track a stockpile count, or how long since a raid or trader.</RM_LinkHelp>
+  <RM_LinkSummary_Count>have {0} {1}</RM_LinkSummary_Count>
+  <RM_LinkSummary_Event>since last {0}</RM_LinkSummary_Event>
+  <RM_Have>Have</RM_Have>
+  <RM_SinceLast>Since last</RM_SinceLast>
+  <RM_DoneWhenReached>Move to Done when reached</RM_DoneWhenReached>
+  <RM_ReopenOnEvent>Move back to Doing when it happens</RM_ReopenOnEvent>
+  <RM_PickItem>Pick an item</RM_PickItem>
+  <RM_AnyOf>{0} (any)</RM_AnyOf>
+  <RM_OtherItem>Other item…</RM_OtherItem>
+
+  <RM_Event_Raid>raid</RM_Event_Raid>
+  <RM_Event_BigThreat>big threat</RM_Event_BigThreat>
+  <RM_Event_TraderCaravan>trader caravan</RM_Event_TraderCaravan>
+  <RM_Event_OrbitalTrader>orbital trader</RM_Event_OrbitalTrader>
+  <RM_Event_Visitors>visitors</RM_Event_Visitors>
+
+  <RM_Meta_LastEvent>last {0} {1} d ago</RM_Meta_LastEvent>
+  <RM_Meta_NoEventYet>no {0} yet</RM_Meta_NoEventYet>
+  <RM_Meta_Repeats>repeats</RM_Meta_Repeats>
+
+  <RM_ReopenedMessage>Back on your plans: {0}</RM_ReopenedMessage>
+  <RM_GoalReachedMessage>Goal reached: {0}</RM_GoalReachedMessage>
+  <RM_OverdueMessage>Plan overdue: {0}</RM_OverdueMessage>
+  <RM_Setting_ShowButton>Show the Plans button on the bottom bar</RM_Setting_ShowButton>
+  <RM_Setting_ShowButtonTip>Turn off to keep your bottom bar tidy. You can still open the board with a hotkey or by clicking the reminder's header.</RM_Setting_ShowButtonTip>
+  <RM_Setting_HiddenHint>The button is hidden. Open the board by clicking the reminder's header, or set a hotkey (see below).</RM_Setting_HiddenHint>
+  <RM_Setting_LockOverlay>Lock the reminder's position</RM_Setting_LockOverlay>
+  <RM_Setting_ResetOverlay>Reset reminder position</RM_Setting_ResetOverlay>
+  <RM_Setting_ResetBoard>Reset board size</RM_Setting_ResetBoard>
+  <RM_Setting_HotkeyHint>To open the board with a key, set "Open colony plans" in Options > Keyboard. It has no key by default, so it won't clash with other mods.</RM_Setting_HotkeyHint>
+  <RM_ToggleTooltip>Toggle the colony plans reminder.</RM_ToggleTooltip>
+  <RM_Overlay_Header>Doing</RM_Overlay_Header>
+  <RM_Overlay_Collapse>Collapse</RM_Overlay_Collapse>
+  <RM_Overlay_Expand>Expand</RM_Overlay_Expand>
+  <RM_Overlay_HeaderTip>Click to open your plans. Drag to move. Right-click for options.</RM_Overlay_HeaderTip>
+  <RM_Overlay_HeaderTipLocked>Click to open your plans. Right-click for options.</RM_Overlay_HeaderTipLocked>
+  <RM_Overlay_Lock>Lock position</RM_Overlay_Lock>
+  <RM_Overlay_Unlock>Unlock position (drag the header to move)</RM_Overlay_Unlock>
+  <RM_Overlay_Hide>Hide reminder (turn it back on with the icon in the bottom-right)</RM_Overlay_Hide>
+</LanguageData>

@@ -5,9 +5,9 @@ using UnityEngine;
 using Verse;
 using Verse.Sound;
 
-namespace ColonyKanban
+namespace RimMinder
 {
-    public class MainTabWindow_Kanban : MainTabWindow
+    public class MainTabWindow_Board : MainTabWindow
     {
         private const float HeaderHeight = 28f;
         private const float ColumnHeaderHeight = 24f;
@@ -17,6 +17,7 @@ namespace ColonyKanban
         private const float StripeWidth = 3f;
         private const float MetaHeight = 16f;
         private const float DragThreshold = 6f;
+        private const float BarHeight = 4f;
         private const float GripSize = 16f;
 
         public static readonly Vector2 DefaultSize = new Vector2(560f, 320f);
@@ -43,7 +44,7 @@ namespace ColonyKanban
         private Vector2 resizeStartMouse;
         private Vector2 resizeStartSize;
 
-        public override Vector2 RequestedTabSize => ClampSize(KanbanMod.Settings.boardSize);
+        public override Vector2 RequestedTabSize => ClampSize(RimMinderMod.Settings.boardSize);
 
         private static Vector2 ClampSize(Vector2 size)
         {
@@ -53,12 +54,12 @@ namespace ColonyKanban
                 Mathf.Clamp(size.y, MinSize.y, UI.screenHeight - 35f - 40f));
         }
 
-        public MainTabWindow_Kanban()
+        public MainTabWindow_Board()
         {
             forcePause = false;
         }
 
-        public static string ColumnLabel(TicketStatus status) => ("CK_Status_" + status).Translate();
+        public static string ColumnLabel(TicketStatus status) => ("RM_Status_" + status).Translate();
 
         public override void PostClose()
         {
@@ -67,13 +68,13 @@ namespace ColonyKanban
             if (resizing)
             {
                 resizing = false;
-                KanbanMod.SaveSettings();
+                RimMinderMod.SaveSettings();
             }
         }
 
         public override void DoWindowContents(Rect inRect)
         {
-            KanbanGameComponent board = KanbanGameComponent.Get();
+            BoardComponent board = BoardComponent.Get();
             if (board == null)
                 return;
 
@@ -98,31 +99,31 @@ namespace ColonyKanban
             GUI.color = Color.white;
         }
 
-        private void DoHeader(Rect rect, KanbanGameComponent board)
+        private void DoHeader(Rect rect, BoardComponent board)
         {
             Text.Font = GameFont.Medium;
             Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(rect, "CK_BoardTitle".Translate());
+            Widgets.Label(rect, "RM_BoardTitle".Translate());
             Text.Font = GameFont.Small;
 
             Rect newButton = new Rect(rect.xMax - GripSize - 8f - 120f, rect.y + 2f, 120f, 24f);
-            if (Widgets.ButtonText(newButton, "CK_NewTicket".Translate()))
+            if (Widgets.ButtonText(newButton, "RM_NewTicket".Translate()))
                 Find.WindowStack.Add(new Dialog_EditTicket(board.Create(), isNew: true));
 
-            string reminder = "CK_ShowReminder".Translate();
+            string reminder = "RM_ShowReminder".Translate();
             float reminderWidth = Text.CalcSize(reminder).x + 34f;
             Rect reminderRect = new Rect(newButton.x - reminderWidth - 12f, rect.y + 2f, reminderWidth, 24f);
-            bool show = KanbanMod.Settings.showOverlay;
+            bool show = RimMinderMod.Settings.showOverlay;
             Widgets.CheckboxLabeled(reminderRect, reminder, ref show);
-            if (show != KanbanMod.Settings.showOverlay)
+            if (show != RimMinderMod.Settings.showOverlay)
             {
-                KanbanMod.Settings.showOverlay = show;
-                KanbanMod.SaveSettings();
+                RimMinderMod.Settings.showOverlay = show;
+                RimMinderMod.SaveSettings();
             }
             Text.Anchor = TextAnchor.UpperLeft;
         }
 
-        private void DoColumn(Rect rect, int index, KanbanGameComponent board)
+        private void DoColumn(Rect rect, int index, BoardComponent board)
         {
             TicketStatus status = Columns[index];
             List<Ticket> tickets = board.InColumn(status).ToList();
@@ -140,13 +141,13 @@ namespace ColonyKanban
             if (status == TicketStatus.Done && tickets.Count > 0)
             {
                 Text.Font = GameFont.Tiny;
-                string clear = "CK_ClearDone".Translate();
+                string clear = "RM_ClearDone".Translate();
                 float w = Text.CalcSize(clear).x + 10f;
                 Rect clearRect = new Rect(header.xMax - w, header.y, w, header.height);
                 if (Widgets.ButtonText(clearRect, clear, drawBackground: false))
                 {
                     Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
-                        "CK_ClearDoneConfirm".Translate(tickets.Count),
+                        "RM_ClearDoneConfirm".Translate(tickets.Count),
                         () => board.tickets.RemoveAll(t => t.status == TicketStatus.Done),
                         destructive: true));
                 }
@@ -166,7 +167,7 @@ namespace ColonyKanban
                 Text.Font = GameFont.Tiny;
                 Text.Anchor = TextAnchor.UpperCenter;
                 GUI.color = Widgets.InactiveColor;
-                string empty = board.tickets.Count == 0 && status == TicketStatus.Plan ? "CK_EmptyBoard".Translate() : "CK_EmptyColumn".Translate();
+                string empty = board.tickets.Count == 0 && status == TicketStatus.Plan ? "RM_EmptyBoard".Translate() : "RM_EmptyColumn".Translate();
                 Widgets.Label(new Rect(outRect.x + 6f, outRect.y + 10f, outRect.width - 12f, 60f), empty);
                 GUI.color = Color.white;
                 Text.Anchor = TextAnchor.UpperLeft;
@@ -184,7 +185,7 @@ namespace ColonyKanban
                 if (status == TicketStatus.Done && !dragging && Mouse.IsOver(card))
                 {
                     Rect deleteRect = new Rect(card.xMax - 16f, card.y + 4f, 12f, 12f);
-                    TooltipHandler.TipRegion(deleteRect, "CK_Delete".Translate());
+                    TooltipHandler.TipRegion(deleteRect, "RM_Delete".Translate());
                     if (Widgets.ButtonImage(deleteRect, TexButton.CloseXSmall, new Color(1f, 1f, 1f, 0.6f), Color.white))
                         board.Remove(t);
                 }
@@ -200,7 +201,7 @@ namespace ColonyKanban
         {
             Text.Font = GameFont.Small;
             float titleHeight = Text.CalcHeight(t.title, width - StripeWidth - CardPad * 3f);
-            return CardPad + titleHeight + MetaHeight + CardPad;
+            return CardPad + titleHeight + MetaHeight + (t.IsCountGoal ? BarHeight + 2f : 0f) + CardPad;
         }
 
         public static void DrawCard(Rect rect, Ticket t, float alpha = 1f, bool highlight = true)
@@ -224,6 +225,14 @@ namespace ColonyKanban
             string meta = t.MetaLabel(out Color metaColor);
             GUI.color = metaColor.WithAlpha(alpha);
             Widgets.Label(new Rect(textRect.x, textRect.y + titleHeight, textRect.width, MetaHeight), meta);
+
+            if (t.IsCountGoal)
+            {
+                Rect bar = new Rect(textRect.x, textRect.y + titleHeight + MetaHeight + 1f, textRect.width, BarHeight);
+                Widgets.DrawBoxSolid(bar, new Color(0.18f, 0.2f, 0.22f, alpha));
+                Color fill = t.GoalMet ? Ticket.MetColor : t.Color;
+                Widgets.DrawBoxSolid(new Rect(bar.x, bar.y, bar.width * t.Progress, bar.height), fill.WithAlpha(alpha));
+            }
 
             Text.Font = GameFont.Small;
             GUI.color = old;
@@ -266,7 +275,7 @@ namespace ColonyKanban
             return null;
         }
 
-        private void HandleInput(KanbanGameComponent board)
+        private void HandleInput(BoardComponent board)
         {
             Event e = Event.current;
             Vector2 mouse = e.mousePosition;
@@ -324,7 +333,7 @@ namespace ColonyKanban
             }
         }
 
-        private void DrawDragFeedback(KanbanGameComponent board)
+        private void DrawDragFeedback(BoardComponent board)
         {
             if (!dragging || pressed == null)
                 return;
@@ -346,7 +355,7 @@ namespace ColonyKanban
             DrawCard(ghost, pressed, 0.75f, highlight: false);
         }
 
-        private void OpenContextMenu(Ticket ticket, KanbanGameComponent board)
+        private void OpenContextMenu(Ticket ticket, BoardComponent board)
         {
             var options = new List<FloatMenuOption>();
             foreach (TicketStatus status in Columns)
@@ -354,17 +363,17 @@ namespace ColonyKanban
                 if (status == ticket.status)
                     continue;
                 TicketStatus target = status;
-                options.Add(new FloatMenuOption("CK_MoveTo".Translate(ColumnLabel(target)), () => board.Move(ticket, target, null)));
+                options.Add(new FloatMenuOption("RM_MoveTo".Translate(ColumnLabel(target)), () => board.Move(ticket, target, null)));
             }
-            options.Add(new FloatMenuOption("CK_Edit".Translate(), () => Find.WindowStack.Add(new Dialog_EditTicket(ticket, isNew: false))));
-            options.Add(new FloatMenuOption("CK_Delete".Translate(), () => ConfirmDelete(ticket, board)));
+            options.Add(new FloatMenuOption("RM_Edit".Translate(), () => Find.WindowStack.Add(new Dialog_EditTicket(ticket, isNew: false))));
+            options.Add(new FloatMenuOption("RM_Delete".Translate(), () => ConfirmDelete(ticket, board)));
             Find.WindowStack.Add(new FloatMenu(options));
         }
 
-        public static void ConfirmDelete(Ticket ticket, KanbanGameComponent board)
+        public static void ConfirmDelete(Ticket ticket, BoardComponent board)
         {
             Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
-                "CK_DeleteConfirm".Translate(ticket.title),
+                "RM_DeleteConfirm".Translate(ticket.title),
                 () => board.Remove(ticket),
                 destructive: true));
         }
@@ -381,7 +390,7 @@ namespace ColonyKanban
             GUI.color = Mouse.IsOver(grip) || resizing ? Color.white : new Color(1f, 1f, 1f, 0.5f);
             GUI.DrawTextureWithTexCoords(grip, TexUI.WinExpandWidget, new Rect(0f, 1f, 1f, -1f));
             GUI.color = Color.white;
-            TooltipHandler.TipRegion(grip, "CK_ResizeTip".Translate());
+            TooltipHandler.TipRegion(grip, "RM_ResizeTip".Translate());
 
             Event e = Event.current;
             if (e.type == EventType.MouseDown && Mouse.IsOver(grip))
@@ -395,7 +404,7 @@ namespace ColonyKanban
                 else if (e.button == 1)
                 {
                     ApplySize(DefaultSize);
-                    KanbanMod.SaveSettings();
+                    RimMinderMod.SaveSettings();
                 }
                 e.Use();
             }
@@ -405,7 +414,7 @@ namespace ColonyKanban
             if (!Input.GetMouseButton(0))
             {
                 resizing = false;
-                KanbanMod.SaveSettings();
+                RimMinderMod.SaveSettings();
                 return;
             }
             Vector2 delta = UI.MousePositionOnUIInverted - resizeStartMouse;
@@ -417,7 +426,7 @@ namespace ColonyKanban
             size = ClampSize(size);
             float bottom = windowRect.yMax;
             windowRect = new Rect(windowRect.x, bottom - size.y, size.x, size.y);
-            KanbanMod.Settings.boardSize = size;
+            RimMinderMod.Settings.boardSize = size;
         }
 
         private void ResetDrag()

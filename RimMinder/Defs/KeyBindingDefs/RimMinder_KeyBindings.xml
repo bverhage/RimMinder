@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- Unbound by default to avoid clashing with vanilla or other mods; set it in Options > Keyboard. -->
+  <KeyBindingDef>
+    <defName>RimMinder_OpenBoard</defName>
+    <label>open colony plans</label>
+    <category>MainTabs</category>
+    <defaultKeyCodeA>None</defaultKeyCodeA>
+  </KeyBindingDef>
+</Defs>
